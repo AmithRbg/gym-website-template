@@ -1,530 +1,910 @@
-<!doctype html>
-<html lang="en" class="h-full">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gym Website</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&amp;family=Barlow:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
-  <style>
-html,body{margin:0;padding:0;height:100%;width:100%;scroll-behavior:smooth}
-*{box-sizing:border-box}
-body{font-family:'Barlow',sans-serif;overflow-x:hidden}
-.font-heading{font-family:'Oswald',sans-serif}
-.hero-bg{background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 50%,#16213e 100%)}
-.glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08)}
-.card-hover{transition:all .3s ease}
-.card-hover:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,0.4)}
-.btn-primary{background:linear-gradient(135deg,var(--c-primary),var(--c-primary-dark));transition:all .3s}
-.btn-primary:hover{filter:brightness(1.15);transform:scale(1.03)}
-.fade-in{opacity:0;transform:translateY(30px);animation:fadeUp .7s ease forwards}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-@keyframes pulse-glow{0%,100%{box-shadow:0 0 20px rgba(255,65,54,0.3)}50%{box-shadow:0 0 40px rgba(255,65,54,0.6)}}
-.glow{animation:pulse-glow 2s infinite}
-:root{--c-bg:#0a0a0a;--c-surface:#141427;--c-text:#f0f0f0;--c-primary:#ff4136;--c-primary-dark:#cc3029;--c-secondary:#1a1a2e}
-.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:100;display:none;align-items:center;justify-content:center}
-.overlay.active{display:flex}
-.modal{background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:32px;max-width:420px;width:90%;position:relative}
-.nav-link{position:relative;padding-bottom:2px}
-.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--c-primary);transition:width .3s}
-.nav-link:hover::after{width:100%}
-/* Gallery section */
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
-.gallery-item{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/3;background:#1a1a2e;border:2px dashed rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;cursor:pointer}
-.gallery-item img{width:100%;height:100%;object-fit:cover;border-radius:12px}
-.gallery-item .remove-btn{position:absolute;top:8px;right:8px;background:rgba(255,65,54,0.9);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:16px;z-index:5}
-.gallery-item:hover .remove-btn{display:flex}
-.scroll-top{position:fixed;bottom:24px;right:24px;z-index:50;width:44px;height:44px;border-radius:50%;display:none;align-items:center;justify-content:center;cursor:pointer;border:none}
-.scroll-top.visible{display:flex}
-</style>
-  <style>body { box-sizing: border-box; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body class="h-full" style="background:var(--c-bg);color:var(--c-text)">
-  <div id="app" class="w-full" style="min-height:100%;overflow:auto"><!-- NAV -->
-   <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300" style="background:rgba(10,10,10,0.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.05)">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between"><a href="#home" class="font-heading text-2xl font-bold" id="nav-gym-name" style="color:var(--c-primary)">JERAI FITNESS</a>
-     <div class="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide"><a href="#home" class="nav-link hover:text-white/80">HOME</a> <a href="#about" class="nav-link hover:text-white/80">ABOUT</a> <a href="#programs" class="nav-link hover:text-white/80">PROGRAMS</a> <a href="#gallery" class="nav-link hover:text-white/80">GALLERY</a> <a href="#contact" class="nav-link hover:text-white/80">CONTACT</a>
-     </div>
-     <div class="hidden md:flex items-center gap-4 text-xs" style="color:rgba(255,255,255,0.6)"><span id="nav-email"><i data-lucide="mail" style="width:14px;height:14px;display:inline;vertical-align:middle"></i> gym@example.com</span> <span id="nav-location"><i data-lucide="map-pin" style="width:14px;height:14px;display:inline;vertical-align:middle"></i> Your City</span>
-     </div><button id="mobile-menu-btn" class="md:hidden text-white" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"> <i data-lucide="menu" style="width:28px;height:28px"></i> </button>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 flex flex-col gap-3 text-sm font-medium"><a href="#home" class="py-2 border-b border-white/10" onclick="this.parentElement.classList.add('hidden')">HOME</a> <a href="#about" class="py-2 border-b border-white/10" onclick="this.parentElement.classList.add('hidden')">ABOUT</a> <a href="#programs" class="py-2 border-b border-white/10" onclick="this.parentElement.classList.add('hidden')">PROGRAMS</a> <a href="#gallery" class="py-2 border-b border-white/10" onclick="this.parentElement.classList.add('hidden')">GALLERY</a> <a href="#contact" class="py-2 border-b border-white/10" onclick="this.parentElement.classList.add('hidden')">CONTACT</a>
-    </div>
-   </nav><!-- HERO -->
-   <section id="home" class="hero-bg relative flex items-center justify-center text-center" style="min-height:100%;padding:120px 20px 80px">
-    <div class="fade-in max-w-3xl">
-     <p class="uppercase tracking-[6px] text-sm mb-4" style="color:var(--c-primary)">Welcome to</p>
-     <h1 id="hero-name" class="font-heading text-5xl md:text-7xl font-bold mb-4">JERAI FITNESS</h1>
-     <p id="hero-tagline" class="text-lg md:text-xl mb-8" style="color:rgba(255,255,255,0.65)">Transform your body. Transform your life.</p><a href="#programs" class="btn-primary inline-block px-10 py-4 rounded-full font-heading font-semibold text-lg tracking-wider text-white glow">JOIN NOW</a>
-    </div>
-   </section><!-- ABOUT -->
-   <section id="about" class="py-20 px-4" style="background:var(--c-secondary)">
-    <div class="max-w-5xl mx-auto text-center fade-in">
-     <p class="uppercase tracking-[4px] text-xs mb-2" style="color:var(--c-primary)">Who We Are</p>
-     <h2 class="font-heading text-4xl md:text-5xl font-bold mb-8">ABOUT US</h2>
-     <p id="about-text" class="text-base md:text-lg leading-relaxed max-w-3xl mx-auto" style="color:rgba(255,255,255,0.7)">We are a state-of-the-art fitness center committed to helping you achieve your health and fitness goals. With expert trainers, modern equipment, and a motivating atmosphere, we provide everything you need to push your limits and become the best version of yourself. Whether you're a beginner or a seasoned athlete, our community welcomes everyone.</p>
-     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-      <div class="glass rounded-xl p-6">
-       <p class="font-heading text-3xl font-bold" style="color:var(--c-primary)">500+</p>
-       <p class="text-sm mt-1" style="color:rgba(255,255,255,0.5)">Members</p>
-      </div>
-      <div class="glass rounded-xl p-6">
-       <p class="font-heading text-3xl font-bold" style="color:var(--c-primary)">15+</p>
-       <p class="text-sm mt-1" style="color:rgba(255,255,255,0.5)">Trainers</p>
-      </div>
-      <div class="glass rounded-xl p-6">
-       <p class="font-heading text-3xl font-bold" style="color:var(--c-primary)">10+</p>
-       <p class="text-sm mt-1" style="color:rgba(255,255,255,0.5)">Programs</p>
-      </div>
-      <div class="glass rounded-xl p-6">
-       <p class="font-heading text-3xl font-bold" style="color:var(--c-primary)">5+</p>
-       <p class="text-sm mt-1" style="color:rgba(255,255,255,0.5)">Years</p>
-      </div>
-     </div>
-    </div>
-   </section><!-- PROGRAMS -->
-   <section id="programs" class="py-20 px-4" style="background:var(--c-bg)">
-    <div class="max-w-6xl mx-auto">
-     <div class="text-center mb-14 fade-in">
-      <p class="uppercase tracking-[4px] text-xs mb-2" style="color:var(--c-primary)">What We Offer</p>
-      <h2 class="font-heading text-4xl md:text-5xl font-bold">OUR PROGRAMS</h2>
-     </div>
-     <div class="grid md:grid-cols-3 gap-8"><!-- Strength Training -->
-      <div class="glass rounded-2xl p-8 card-hover fade-in text-center" style="animation-delay:.1s">
-       <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5" style="background:rgba(255,65,54,0.15)"><i data-lucide="dumbbell" style="width:32px;height:32px;color:var(--c-primary)"></i>
-       </div>
-       <h3 class="font-heading text-xl font-bold mb-3">STRENGTH TRAINING</h3>
-       <p class="text-sm mb-6" style="color:rgba(255,255,255,0.55)">Build muscle, increase strength, and transform your physique with our guided programs.</p><button onclick="openStrengthPage()" class="btn-primary px-8 py-3 rounded-full font-heading font-semibold text-sm tracking-wider text-white">START NOW</button>
-      </div><!-- Cardio Zone -->
-      <div class="glass rounded-2xl p-8 card-hover fade-in text-center" style="animation-delay:.25s">
-       <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5" style="background:rgba(255,65,54,0.15)"><i data-lucide="heart-pulse" style="width:32px;height:32px;color:var(--c-primary)"></i>
-       </div>
-       <h3 class="font-heading text-xl font-bold mb-3">CARDIO ZONE</h3>
-       <p class="text-sm mb-6" style="color:rgba(255,255,255,0.55)">Boost endurance with our high-energy cardio sessions including Zumba, Dance, and Yoga.</p><button onclick="openCardioPage()" class="btn-primary px-8 py-3 rounded-full font-heading font-semibold text-sm tracking-wider text-white">START NOW</button>
-      </div><!-- Personal Training -->
-      <div class="glass rounded-2xl p-8 card-hover fade-in text-center" style="animation-delay:.4s">
-       <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5" style="background:rgba(255,65,54,0.15)"><i data-lucide="users" style="width:32px;height:32px;color:var(--c-primary)"></i>
-       </div>
-       <h3 class="font-heading text-xl font-bold mb-3">PERSONAL TRAINING</h3>
-       <p class="text-sm mb-6" style="color:rgba(255,255,255,0.55)">Get one-on-one guidance from certified trainers tailored to your unique goals.</p><button onclick="showContactPopup('Personal Training')" class="btn-primary px-8 py-3 rounded-full font-heading font-semibold text-sm tracking-wider text-white">START NOW</button>
-      </div>
-     </div>
-    </div>
-   </section><!-- GALLERY -->
-   <section id="gallery" class="py-20 px-4" style="background:var(--c-secondary)">
-    <div class="max-w-6xl mx-auto">
-     <div class="text-center mb-10 fade-in">
-      <p class="uppercase tracking-[4px] text-xs mb-2" style="color:var(--c-primary)">Our Space</p>
-      <h2 class="font-heading text-4xl md:text-5xl font-bold mb-4">GALLERY</h2>
-      <p class="text-sm" style="color:rgba(255,255,255,0.5)">Click the + button to add your gym photos</p>
-     </div>
-     <div id="gallery-grid" class="gallery-grid"><!-- Add button always last -->
-      <div id="gallery-add-btn" class="gallery-item" style="border-color:var(--c-primary);opacity:.7" onclick="promptOwnerMode()">
-       <div class="text-center"><i data-lucide="plus" style="width:40px;height:40px;color:var(--c-primary);margin:0 auto"></i>
-        <p class="text-xs mt-2" style="color:rgba(255,255,255,0.4)">Add Photo</p>
-       </div>
-      </div>
-     </div><input type="file" id="gallery-input" accept="image/*" multiple hidden onchange="handleGalleryUpload(event)">
-    </div>
-   </section><!-- CONTACT -->
-   <section id="contact" class="py-20 px-4" style="background:var(--c-bg)">
-    <div class="max-w-4xl mx-auto">
-     <div class="text-center mb-12 fade-in">
-      <p class="uppercase tracking-[4px] text-xs mb-2" style="color:var(--c-primary)">Get In Touch</p>
-      <h2 class="font-heading text-4xl md:text-5xl font-bold">CONTACT US</h2>
-     </div>
-     <div class="grid md:grid-cols-2 gap-8">
-      <div class="glass rounded-2xl p-8 fade-in">
-       <div class="space-y-6">
-        <div class="flex items-center gap-4">
-         <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background:rgba(255,65,54,0.15)">
-          <i data-lucide="phone" style="width:22px;height:22px;color:var(--c-primary)"></i>
-         </div>
-         <div>
-          <p class="text-xs uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Phone</p>
-          <p id="contact-phone" class="font-medium">+91 XXXXX XXXXX</p>
-         </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Fitness Gym</title>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(0,0,0,0.9);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: 0.3s;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            color: #ff6b35;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #ff6b35;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #ff6b35;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #ff6b35;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .back-btn:hover {
+            background: #e55a2b;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .card i {
+            font-size: 3rem;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        /* Programs Section */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .program-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: #ff6b35;
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            height: 280px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+            overflow: hidden;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .admin-panel {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .admin-panel input {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 300px;
+        }
+
+        .admin-panel button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .admin-panel button:hover {
+            background: #555;
+        }
+
+        .remove-btn, .edit-btn {
+            position: absolute;
+            top: 10px;
+            background: rgba(255,0,0,0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: none;
+            z-index: 10;
+        }
+
+        .edit-btn {
+            right: 10px;
+            background: rgba(0,128,0,0.9);
+            top: 50px;
+        }
+
+        .gallery-item:hover .remove-btn,
+        .gallery-item:hover .edit-btn {
+            display: block;
+        }
+
+        /* Contact Info Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 10% auto;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .contact-item i {
+            font-size: 2rem;
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: rgba(0,0,0,0.95);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .admin-panel input {
+                width: 200px;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* New Tab Styles */
+        .new-tab {
+            min-height: 100vh;
+            padding: 80px 20px 20px;
+            color: white;
+        }
+
+        .new-tab h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .sub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .sub-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">Elite Fitness</div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-        <div class="flex items-center gap-4">
-         <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background:rgba(255,65,54,0.15)">
-          <i data-lucide="message-circle" style="width:22px;height:22px;color:var(--c-primary)"></i>
-         </div>
-         <div>
-          <p class="text-xs uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">WhatsApp</p>
-          <p id="contact-whatsapp" class="font-medium">+91 XXXXX XXXXX</p>
-         </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Transform Your Body</h1>
+            <p>Join the elite fitness community and achieve your dream physique</p>
+            <a href="#programs" class="btn">Join Now</a>
         </div>
-        <div class="flex items-center gap-4">
-         <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background:rgba(255,65,54,0.15)">
-          <i data-lucide="mail" style="width:22px;height:22px;color:var(--c-primary)"></i>
-         </div>
-         <div>
-          <p class="text-xs uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Email</p>
-          <p id="contact-email-display" class="font-medium">gym@example.com</p>
-         </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">About Us</h2>
+            <div class="grid">
+                <div class="card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>Modern Equipment</h3>
+                    <p>State-of-the-art gym equipment imported from leading brands worldwide.</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-users"></i>
+                    <h3>Expert Trainers</h3>
+                    <p>Certified trainers with years of experience to guide your fitness journey.</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-clock"></i>
+                    <h3>24/7 Access</h3>
+                    <p>Open 24 hours with flexible membership plans for everyone.</p>
+                </div>
+            </div>
         </div>
-        <div class="flex items-center gap-4">
-         <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background:rgba(255,65,54,0.15)">
-          <i data-lucide="map-pin" style="width:22px;height:22px;color:var(--c-primary)"></i>
-         </div>
-         <div>
-          <p class="text-xs uppercase tracking-wider" style="color:rgba(255,255,255,0.4)">Location</p>
-          <p id="contact-location-display" class="font-medium">Your City, India</p>
-         </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section id="programs" class="section" style="background: #f8f9fa;">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Our Programs</h2>
+            <div class="programs-grid">
+                <div class="program-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3>🏋️ Weight Training</h3>
+                    <p>Complete strength training program for all levels</p>
+                    <button class="btn" onclick="openWeightTraining()">Start Now</button>
+                </div>
+                <div class="program-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3>❤️ Cardio Zone</h3>
+                    <p>High-intensity cardio and endurance training</p>
+                    <button class="btn" onclick="openCardioZone()">Start Now</button>
+                </div>
+                <div class="program-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3>👨‍🏫 Personal Training</h3>
+                    <p>One-on-one training with certified professionals</p>
+                    <button class="btn" onclick="showPersonalTraining()">Start Now</button>
+                </div>
+            </div>
         </div>
-       </div>
-      </div>
-      <form class="glass rounded-2xl p-8 fade-in space-y-4" onsubmit="handleContactForm(event)"><label for="cf-name" class="sr-only">Name</label> <input id="cf-name" type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-lg border-none outline-none text-white text-sm" style="background:rgba(255,255,255,0.08)" required> <label for="cf-email" class="sr-only">Email</label> <input id="cf-email" type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-lg border-none outline-none text-white text-sm" style="background:rgba(255,255,255,0.08)" required> <label for="cf-msg" class="sr-only">Message</label> <textarea id="cf-msg" rows="4" placeholder="Your Message" class="w-full px-4 py-3 rounded-lg border-none outline-none text-white text-sm resize-none" style="background:rgba(255,255,255,0.08)" required></textarea> <button type="submit" class="btn-primary w-full py-3 rounded-full font-heading font-semibold tracking-wider text-white">SEND MESSAGE</button>
-       <p id="form-msg" class="text-center text-sm hidden" style="color:var(--c-primary)">Message sent! We'll get back to you soon.</p>
-      </form>
-     </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Gym Gallery</h2>
+            
+            <!-- Admin Panel - Only Owner Access -->
+            <div class="admin-panel" id="adminPanel" style="display: none;">
+                <input type="text" id="imageUrl" placeholder="Enter Image URL">
+                <input type="text" id="imageDesc" placeholder="Image Description">
+                <button onclick="addGalleryImageOwner()">Add Photo</button>
+                <button onclick="toggleAdminPanel()">Hide Panel</button>
+            </div>
+            
+            <button class="btn" onclick="toggleAdminPanel()" id="adminToggle" data-aos="fade-up" data-aos-delay="100">
+                👨‍💼 Owner: Manage Gallery
+            </button>
+            
+            <p style="text-align: center; margin: 1rem 0 2rem; font-size: 1.1rem; color: #666;" data-aos="fade-up" data-aos-delay="200">
+                Hover over images to see descriptions
+            </p>
+
+            <div class="gallery-grid" id="galleryGrid" data-aos="fade-up" data-aos-delay="300">
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <button class="remove-btn" onclick="removeGalleryImageOwner(event)">×</button>
+                    <button class="edit-btn" onclick="editGalleryImage(event)">✏️</button>
+                    <div class="gallery-overlay">
+                        <h4>Modern Weight Area</h4>
+                        <p>State-of-the-art equipment for serious lifters</p>
+                    </div>
+                </div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <button class="remove-btn" onclick="removeGalleryImageOwner(event)">×</button>
+                    <button class="edit-btn" onclick="editGalleryImage(event)">✏️</button>
+                    <div class="gallery-overlay">
+                        <h4>Cardio Zone</h4>
+                        <p>Latest cardio machines for fat burning</p>
+                    </div>
+                </div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1519710164239-da123dc03ef4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <button class="remove-btn" onclick="removeGalleryImageOwner(event)">×</button>
+                    <button class="edit-btn" onclick="editGalleryImage(event)">✏️</button>
+                    <div class="gallery-overlay">
+                        <h4>Group Classes</h4>
+                        <p>Zumba and yoga classes available daily</p>
+                    </div>
+                </div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <button class="remove-btn" onclick="removeGalleryImageOwner(event)">×</button>
+                    <button class="edit-btn" onclick="editGalleryImage(event)">✏️</button>
+                    <div class="gallery-overlay">
+                        <h4>Personal Training</h4>
+                        <p>One-on-one sessions with expert trainers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section" style="background: #333; color: white;">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Contact Us</h2>
+            <div class="grid">
+                <div class="card" data-aos="fade-up" data-aos-delay="100" style="background: rgba(255,255,255,0.1); color: white;">
+                    <i class="fas fa-phone" style="font-size: 3rem; color: #ff6b35;"></i>
+                    <h3>Phone</h3>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="200" style="background: rgba(255,255,255,0.1); color: white;">
+                    <i class="fab fa-whatsapp" style="font-size: 3rem; color: #25D366;"></i>
+                    <h3>WhatsApp</h3>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="300" style="background: rgba(255,255,255,0.1); color: white;">
+                    <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: #ff6b35;"></i>
+                    <h3>Location</h3>
+                    <p>123 Fitness Street<br>City, State 12345</p>
+                </div>
+                <div class="card" data-aos="fade-up" data-aos-delay="400" style="background: rgba(255,255,255,0.1); color: white;">
+                    <i class="fas fa-envelope" style="font-size: 3rem; color: #ff6b35;"></i>
+                    <h3>Email</h3>
+                    <p>info@elitefitness.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Elite Fitness Gym. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Personal Training Modal -->
+    <div id="personalModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Personal Training</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>info@elitefitness.com</p>
+                </div>
+            </div>
+        </div>
     </div>
-   </section><!-- FOOTER -->
-   <footer class="py-8 px-4 text-center text-sm border-t" style="border-color:rgba(255,255,255,0.05);color:rgba(255,255,255,0.35);background:var(--c-secondary)">
-    <p id="footer-name">© 2025 JERAI FITNESS. All rights reserved.</p>
-   </footer>
-  </div><!-- CONTACT POPUP MODAL -->
-  <div id="contact-popup" class="overlay" onclick="if(event.target===this)this.classList.remove('active')">
-   <div class="modal fade-in"><button onclick="document.getElementById('contact-popup').classList.remove('active')" class="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,0.1);color:#fff;border:none;cursor:pointer">✕</button>
-    <h3 id="popup-title" class="font-heading text-2xl font-bold mb-6" style="color:var(--c-primary)">Contact Us</h3>
-    <div class="space-y-4">
-     <div class="flex items-center gap-3">
-      <i data-lucide="phone" style="width:18px;height:18px;color:var(--c-primary)"></i><span id="popup-phone">+91 XXXXX XXXXX</span>
-     </div>
-     <div class="flex items-center gap-3">
-      <i data-lucide="message-circle" style="width:18px;height:18px;color:var(--c-primary)"></i><span id="popup-whatsapp">+91 XXXXX XXXXX</span>
-     </div>
-     <div class="flex items-center gap-3">
-      <i data-lucide="mail" style="width:18px;height:18px;color:var(--c-primary)"></i><span id="popup-email">gym@example.com</span>
-     </div>
-     <div class="flex items-center gap-3">
-      <i data-lucide="map-pin" style="width:18px;height:18px;color:var(--c-primary)"></i><span id="popup-location">Your City</span>
-     </div>
-     <div class="flex items-center gap-3">
-      <i data-lucide="indian-rupee" style="width:18px;height:18px;color:var(--c-primary)"></i><span id="popup-price" class="font-semibold">Price: Contact for details</span>
-     </div>
-    </div>
-   </div>
-  </div><!-- SCROLL TO TOP --> <button id="scroll-top" class="scroll-top btn-primary text-white" onclick="document.getElementById('home').scrollIntoView({behavior:'smooth'})"> <i data-lucide="chevron-up" style="width:24px;height:24px"></i> </button> <!-- OWNER AUTH MODAL -->
-  <div id="owner-auth-modal" class="overlay" onclick="if(event.target===this)this.classList.remove('active')">
-   <div class="modal" style="max-width:350px">
-    <button onclick="document.getElementById('owner-auth-modal').classList.remove('active')" class="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,0.1);color:#fff;border:none;cursor:pointer">✕</button>
-    <h3 class="font-heading text-xl font-bold mb-4" style="color:var(--c-primary)">Owner Access</h3>
-    <p class="text-sm mb-4" style="color:rgba(255,255,255,0.6)">Enter owner password to add/remove photos:</p><input type="password" id="owner-pwd-input" placeholder="Enter password" class="w-full px-3 py-2 rounded-lg border-none outline-none text-white text-sm mb-4" style="background:rgba(255,255,255,0.08)"> <button onclick="verifyOwnerPassword()" class="btn-primary w-full py-2 rounded-full font-heading font-semibold text-sm tracking-wider text-white">UNLOCK</button>
-    <p id="pwd-error" class="text-center text-xs mt-3 hidden" style="color:#ff6b6b">Incorrect password</p>
-   </div>
-  </div><!-- ADD PHOTO MODAL -->
-  <div id="add-photo-modal" class="overlay" onclick="if(event.target===this)this.classList.remove('active')">
-   <div class="modal" style="max-width:400px">
-    <button onclick="document.getElementById('add-photo-modal').classList.remove('active')" class="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,0.1);color:#fff;border:none;cursor:pointer">✕</button>
-    <h3 class="font-heading text-lg font-bold mb-4" style="color:var(--c-primary)">Add Photo</h3><label for="photo-caption" class="text-xs uppercase tracking-wider" style="color:rgba(255,255,255,0.5)">Photo Description</label> <textarea id="photo-caption" rows="3" placeholder="Describe this photo (e.g., Cardio Zone, Free weights area, etc.)" class="w-full px-3 py-2 rounded-lg border-none outline-none text-white text-sm resize-none mt-2 mb-4" style="background:rgba(255,255,255,0.08)"></textarea> <button onclick="selectPhotoFile()" class="btn-primary w-full py-2 rounded-full font-heading font-semibold text-sm tracking-wider text-white">SELECT PHOTO</button>
-   </div>
-  </div>
-  <script src="/_sdk/data_sdk.js"></script>
-  <script>
-// ====== CONFIG & SDK ======
-const defaultConfig = {
-  gym_name: 'JERAI FITNESS',
-  hero_tagline: 'Transform your body. Transform your life.',
-  contact_phone: '+91 XXXXX XXXXX',
-  contact_whatsapp: '+91 XXXXX XXXXX',
-  contact_email: 'gym@example.com',
-  contact_location: 'Your City, India',
-  about_text: 'We are a state-of-the-art fitness center committed to helping you achieve your health and fitness goals. With expert trainers, modern equipment, and a motivating atmosphere, we provide everything you need to push your limits and become the best version of yourself.',
-  background_color: '#0a0a0a',
-  surface_color: '#1a1a2e',
-  text_color: '#f0f0f0',
-  primary_color: '#ff4136',
-  secondary_color: '#16213e',
-  font_family: 'Oswald',
-  font_size: 16,
-  owner_password: ''
-};
 
-let galleryData = [];
-let isOwnerMode = false;
-let ownerPassword = '';
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
 
-function applyConfig(c) {
-  // Colors
-  document.documentElement.style.setProperty('--c-bg', c.background_color || defaultConfig.background_color);
-  document.documentElement.style.setProperty('--c-surface', c.surface_color || defaultConfig.surface_color);
-  document.documentElement.style.setProperty('--c-text', c.text_color || defaultConfig.text_color);
-  document.documentElement.style.setProperty('--c-primary', c.primary_color || defaultConfig.primary_color);
-  document.documentElement.style.setProperty('--c-secondary', c.secondary_color || defaultConfig.secondary_color);
-  document.body.style.color = c.text_color || defaultConfig.text_color;
+        // Mobile Navigation
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const navbar = document.getElementById('navbar');
 
-  const name = c.gym_name || defaultConfig.gym_name;
-  const phone = c.contact_phone || defaultConfig.contact_phone;
-  const wa = c.contact_whatsapp || defaultConfig.contact_whatsapp;
-  const email = c.contact_email || defaultConfig.contact_email;
-  const loc = c.contact_location || defaultConfig.contact_location;
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
 
-  document.getElementById('nav-gym-name').textContent = name;
-  document.getElementById('hero-name').textContent = name;
-  document.getElementById('hero-tagline').textContent = c.hero_tagline || defaultConfig.hero_tagline;
-  document.getElementById('footer-name').textContent = `© 2025 ${name}. All rights reserved.`;
-  document.getElementById('about-text').textContent = c.about_text || defaultConfig.about_text;
-  document.getElementById('nav-email').innerHTML = `<i data-lucide="mail" style="width:14px;height:14px;display:inline;vertical-align:middle"></i> ${email}`;
-  document.getElementById('nav-location').innerHTML = `<i data-lucide="map-pin" style="width:14px;height:14px;display:inline;vertical-align:middle"></i> ${loc}`;
-  document.getElementById('contact-phone').textContent = phone;
-  document.getElementById('contact-whatsapp').textContent = wa;
-  document.getElementById('contact-email-display').textContent = email;
-  document.getElementById('contact-location-display').textContent = loc;
-  document.getElementById('popup-phone').textContent = phone;
-  document.getElementById('popup-whatsapp').textContent = wa;
-  document.getElementById('popup-email').textContent = email;
-  document.getElementById('popup-location').textContent = loc;
+        document.querySelectorAll('.nav-menu a').forEach(n => n.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+        }));
 
-  // Owner password
-  ownerPassword = c.owner_password || defaultConfig.owner_password;
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(0,0,0,0.95)';
+            } else {
+                navbar.style.background = 'rgba(0,0,0,0.9)';
+            }
+        });
 
-  // Font
-  const ff = c.font_family || defaultConfig.font_family;
-  document.querySelectorAll('.font-heading').forEach(el => el.style.fontFamily = `${ff}, sans-serif`);
-  const bs = c.font_size || defaultConfig.font_size;
-  document.body.style.fontSize = bs + 'px';
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
-  lucide.createIcons();
-}
+        // Gallery Admin Functions
+        let isAdmin = false;
 
-window.elementSdk.init({
-  defaultConfig,
-  onConfigChange: async (config) => applyConfig(config),
-  mapToCapabilities: (config) => ({
-    recolorables: [
-      {get:()=>config.background_color||defaultConfig.background_color, set:(v)=>{config.background_color=v;window.elementSdk.setConfig({background_color:v})}},
-      {get:()=>config.surface_color||defaultConfig.surface_color, set:(v)=>{config.surface_color=v;window.elementSdk.setConfig({surface_color:v})}},
-      {get:()=>config.text_color||defaultConfig.text_color, set:(v)=>{config.text_color=v;window.elementSdk.setConfig({text_color:v})}},
-      {get:()=>config.primary_color||defaultConfig.primary_color, set:(v)=>{config.primary_color=v;window.elementSdk.setConfig({primary_color:v})}},
-      {get:()=>config.secondary_color||defaultConfig.secondary_color, set:(v)=>{config.secondary_color=v;window.elementSdk.setConfig({secondary_color:v})}}
-    ],
-    borderables: [],
-    fontEditable: {get:()=>config.font_family||defaultConfig.font_family, set:(v)=>{config.font_family=v;window.elementSdk.setConfig({font_family:v})}},
-    fontSizeable: {get:()=>config.font_size||defaultConfig.font_size, set:(v)=>{config.font_size=v;window.elementSdk.setConfig({font_size:v})}}
-  }),
-  mapToEditPanelValues: (config) => new Map([
-    ['gym_name', config.gym_name || defaultConfig.gym_name],
-    ['hero_tagline', config.hero_tagline || defaultConfig.hero_tagline],
-    ['contact_phone', config.contact_phone || defaultConfig.contact_phone],
-    ['contact_whatsapp', config.contact_whatsapp || defaultConfig.contact_whatsapp],
-    ['contact_email', config.contact_email || defaultConfig.contact_email],
-    ['contact_location', config.contact_location || defaultConfig.contact_location],
-    ['about_text', config.about_text || defaultConfig.about_text],
-    ['owner_password', config.owner_password || defaultConfig.owner_password]
-  ])
-});
+        function toggleAdminPanel() {
+            isAdmin = !isAdmin;
+            const adminPanel = document.getElementById('adminPanel');
+            const adminToggle = document.getElementById('adminToggle');
+            
+            if (isAdmin) {
+                adminPanel.style.display = 'block';
+                adminToggle.textContent = '👨‍💼 Owner: Hide Panel';
+                adminToggle.style.background = '#e55a2b';
+            } else {
+                adminPanel.style.display = 'none';
+                adminToggle.textContent = '👨‍💼 Owner: Manage Gallery';
+                adminToggle.style.background = '#ff6b35';
+            }
+        }
 
-// ====== DATA SDK INIT ======
-(async () => {
-  const dataHandler = {
-    onDataChanged(data) {
-      galleryData = data;
-      renderGallery();
-    }
-  };
-  const result = await window.dataSdk.init(dataHandler);
-  if (!result.isOk) console.error('Data SDK init failed');
-})();
+        function addGalleryImageOwner() {
+            const url = document.getElementById('imageUrl').value;
+            const descTitle = document.getElementById('imageDesc').value || 'New Image';
+            
+            if (!url) {
+                alert('Please enter an image URL');
+                return;
+            }
 
-// ====== CONTACT POPUP ======
-function showContactPopup(title) {
-  document.getElementById('popup-title').textContent = title;
-  document.getElementById('popup-price').textContent = 'Price: Contact for details';
-  document.getElementById('contact-popup').classList.add('active');
-  lucide.createIcons();
-}
+            const galleryGrid = document.getElementById('galleryGrid');
+            const newItem = document.createElement('div');
+            newItem.className = 'gallery-item';
+            newItem.style.backgroundImage = `url(${url})`;
+            newItem.innerHTML = `
+                <button class="remove-btn" onclick="removeGalleryImageOwner(event)">×</button>
+                <button class="edit-btn" onclick="editGalleryImage(event)">✏️</button>
+                <div class="gallery-overlay">
+                    <h4>${descTitle}</h4>
+                    <p>Added by gym owner</p>
+                </div>
+            `;
+            galleryGrid.appendChild(newItem);
+            
+            document.getElementById('imageUrl').value = '';
+            document.getElementById('imageDesc').value = '';
+            alert('Photo added successfully!');
+        }
 
-// ====== STRENGTH TRAINING PAGE (new tab via blob) ======
-function openStrengthPage() {
-  const cfg = window.elementSdk.config || defaultConfig;
-  const phone = cfg.contact_phone || defaultConfig.contact_phone;
-  const wa = cfg.contact_whatsapp || defaultConfig.contact_whatsapp;
-  const email = cfg.contact_email || defaultConfig.contact_email;
-  const loc = cfg.contact_location || defaultConfig.contact_location;
-  const primary = cfg.primary_color || defaultConfig.primary_color;
+        function removeGalleryImageOwner(event) {
+            event.stopPropagation();
+            if (confirm('Remove this photo?')) {
+                event.target.parentElement.remove();
+            }
+        }
 
-  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Strength Training</title>
-<script src="https://cdn.tailwindcss.com/3.4.17"><\/script>
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"><\/script>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>*{box-sizing:border-box}body{font-family:'Barlow',sans-serif;margin:0;background:#0a0a0a;color:#f0f0f0;min-height:100%}.font-h{font-family:'Oswald',sans-serif}.card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:32px;text-align:center;transition:transform .3s}.card:hover{transform:translateY(-4px)}.btn{background:${primary};color:#fff;border:none;padding:12px 32px;border-radius:999px;font-family:'Oswald',sans-serif;font-weight:600;cursor:pointer;letter-spacing:1px;transition:filter .2s}.btn:hover{filter:brightness(1.15)}.back-btn{background:rgba(255,255,255,0.1);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-family:'Oswald',sans-serif;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}.back-btn:hover{background:rgba(255,255,255,0.15)}.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:100}.overlay.active{display:flex}.modal{background:#1a1a2e;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;max-width:400px;width:90%;position:relative}</style></head>
-<body><div style="max-width:900px;margin:0 auto;padding:40px 20px">
-<button class="back-btn" onclick="window.close()"><span>←</span>Back to Main</button>
-<h1 class="font-h" style="font-size:2.5rem;text-align:center;margin:20px 0 8px;color:${primary}">STRENGTH TRAINING</h1>
-<p style="text-align:center;color:rgba(255,255,255,.5);margin-bottom:40px">Choose your program</p>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
-<div class="card"><div style="font-size:3rem;margin-bottom:12px">💪</div><h2 class="font-h" style="font-size:1.5rem;margin-bottom:8px">BULKING</h2><p style="color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:20px">Build mass and gain strength with our structured bulking program.</p><button class="btn" onclick="showInfo('Bulking Program')">START NOW</button></div>
-<div class="card"><div style="font-size:3rem;margin-bottom:12px">✂️</div><h2 class="font-h" style="font-size:1.5rem;margin-bottom:8px">CUTTING</h2><p style="color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:20px">Shred fat while preserving muscle with our expert cutting plan.</p><button class="btn" onclick="showInfo('Cutting Program')">START NOW</button></div>
-<div class="card"><div style="font-size:3rem;margin-bottom:12px">🔥</div><h2 class="font-h" style="font-size:1.5rem;margin-bottom:8px">WEIGHT LOSS</h2><p style="color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:20px">Effective weight loss through training and nutrition guidance.</p><button class="btn" onclick="showInfo('Weight Loss Program')">START NOW</button></div>
-</div></div>
-<div id="info-overlay" class="overlay" onclick="if(event.target===this)this.classList.remove('active')">
-<div class="modal">
-<button onclick="document.getElementById('info-overlay').classList.remove('active')" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px">✕</button>
-<h3 id="info-title" class="font-h" style="font-size:1.5rem;color:${primary};margin-bottom:20px"></h3>
-<div style="display:flex;flex-direction:column;gap:14px">
-<div style="display:flex;align-items:center;gap:10px"><i data-lucide="phone" style="width:18px;height:18px;color:${primary}"></i><span>${phone}</span></div>
-<div style="display:flex;align-items:center;gap:10px"><i data-lucide="message-circle" style="width:18px;height:18px;color:${primary}"></i><span>${wa}</span></div>
-<div style="display:flex;align-items:center;gap:10px"><i data-lucide="mail" style="width:18px;height:18px;color:${primary}"></i><span>${email}</span></div>
-<div style="display:flex;align-items:center;gap:10px"><i data-lucide="map-pin" style="width:18px;height:18px;color:${primary}"></i><span>${loc}</span></div>
-<div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px;color:${primary}">₹</span><span style="font-weight:600">Price: Contact for details</span></div>
-</div></div></div>
-<script>function showInfo(t){document.getElementById('info-title').textContent=t;document.getElementById('info-overlay').classList.add('active');lucide.createIcons()}lucide.createIcons()<\/script></body></html>`;
+        function editGalleryImage(event) {
+            event.stopPropagation();
+            const item = event.target.parentElement;
+            const newTitle = prompt('Enter new title:', item.querySelector('h4').textContent);
+            const newDesc = prompt('Enter new description:');
+            
+            if (newTitle) {
+                item.querySelector('h4').textContent = newTitle;
+            }
+            if (newDesc) {
+                item.querySelector('p').textContent = newDesc;
+            }
+        }
 
-  const blob = new Blob([html], {type:'text/html'});
-  window.open(URL.createObjectURL(blob), '_blank');
-}
+        // Program Functions with Back Button
+        function openWeightTraining() {
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Weight Training - Elite Fitness</title>
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; min-height: 100vh; }
+                        .back-btn { position: fixed; top: 20px; left: 20px; background: #ff6b35; color: white; padding: 12px 20px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; z-index: 2000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+                        .back-btn:hover { background: #e55a2b; }
+                        .container { max-width: 1200px; margin: 0 auto; padding-top: 80px; }
+                        h1 { text-align: center; font-size: 3rem; margin-bottom: 3rem; }
+                        .sub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+                        .sub-card { background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 20px; backdrop-filter: blur(10px); text-align: center; }
+                        .sub-card h3 { margin-bottom: 1rem; font-size: 1.8rem; }
+                        .btn { background: #ff6b35; color: white; padding: 15px 30px; border: none; border-radius: 50px; font-size: 1.1rem; cursor: pointer; margin-top: 1rem; }
+                        .btn:hover { background: #e55a2b; }
+                        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 2rem; }
+                        .contact-item { background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 10px; }
+                        .contact-item i { font-size: 2rem; color: #ff6b35; margin-bottom: 0.5rem; display: block; }
+                    </style>
+                </head>
+                <body>
+                    <button class="back-btn" onclick="window.close()">← Back to Main Site</button>
+                    <div class="container">
+                        <h1>🏋️ Weight Training Programs</h1>
+                        <div class="sub-grid">
+                            <div class="sub-card">
+                                <h3>Bulking</h3>
+                                <p>Mass gain program for serious muscle building</p>
+                                <button class="btn" onclick="showContact('Bulking')">Start Now</button>
+                            </div>
+                            <div class="sub-card">
+                                <h3>Cutting</h3>
+                                <p>Fat loss while maintaining muscle mass</p>
+                                <button class="btn" onclick="showContact('Cutting')">Start Now</button>
+                            </div>
+                            <div class="sub-card">
+                                <h3>Weight Loss</h3>
+                                <p>Complete transformation program</p>
+                                <button class="btn" onclick="showContact('Weight Loss')">Start Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000;">
+                        <div style="background: white; color: #333; margin: 10% auto; padding: 2rem; width: 90%; max-width: 500px; border-radius: 15px; text-align: center;">
+                            <h2 id="contactTitle">Contact Trainer</h2>
+                            <div class="contact-grid">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <p>+1 (555) 123-4567</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <p>+1 (555) 123-4567</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>123 Fitness St<br>City, State</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <p>info@elitefitness.com</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <p>Price: NULL</p>
+                                </div>
+                            </div>
+                            <button class="btn" onclick="this.parentElement.parentElement.style.display='none'" style="margin-top: 1rem;">Close</button>
+                        </div>
+                    </div>
+                    <script>
+                        function showContact(program) {
+                            document.getElementById('contactTitle').textContent = 'Contact Trainer - ' + program;
+                            document.getElementById('contactModal').style.display = 'block';
+                        }
+                    </script>
+                </body>
+                </html>
+            `);
+        }
 
-// ====== CARDIO PAGE (new tab) ======
-function openCardioPage() {
-  const cfg = window.elementSdk.config || defaultConfig;
-  const phone = cfg.contact_phone || defaultConfig.contact_phone;
-  const wa = cfg.contact_whatsapp || defaultConfig.contact_whatsapp;
-  const email = cfg.contact_email || defaultConfig.contact_email;
-  const loc = cfg.contact_location || defaultConfig.contact_location;
-  const primary = cfg.primary_color || defaultConfig.primary_color;
+        function openCardioZone() {
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Cardio Zone - Elite Fitness</title>
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); color: white; min-height: 100vh; }
+                        .back-btn { position: fixed; top: 20px; left: 20px; background: #333; color: white; padding: 12px 20px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; z-index: 2000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+                        .back-btn:hover { background: #555; }
+                        .container { max-width: 1200px; margin: 0 auto; padding-top: 80px; }
+                        h1 { text-align: center; font-size: 3rem; margin-bottom: 3rem; }
+                        .sub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+                        .sub-card { background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 20px; backdrop-filter: blur(10px); text-align: center; }
+                        .sub-card h3 { margin-bottom: 1rem; font-size: 1.8rem; }
+                        .btn { background: #333; color: white; padding: 15px 30px; border: none; border-radius: 50px; font-size: 1.1rem; cursor: pointer; margin-top: 1rem; }
+                        .btn:hover { background: #555; }
+                        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 2rem; }
+                        .contact-item { background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 10px; }
+                        .contact-item i { font-size: 2rem; color: #ff6b35; margin-bottom: 0.5rem; display: block; }
+                    </style>
+                </head>
+                <body>
+                    <button class="back-btn" onclick="window.close()">← Back to Main Site</button>
+                    <div class="container">
+                        <h1>❤️ Cardio Zone</h1>
+                        <div class="sub-grid">
+                            <div class="sub-card">
+                                <h3>💃 Zumba Dance</h3>
+                                <p>Fun and energetic dance fitness classes</p>
+                                <button class="btn" onclick="showContact('Zumba Dance')">Start Now</button>
+                            </div>
+                            <div class="sub-card">
+                                <h3>🧘 Yoga</h3>
+                                <p>Improve flexibility and mental focus</p>
+                                <button class="btn" onclick="showContact('Yoga')">Start Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000;">
+                        <div style="background: white; color: #333; margin: 10% auto; padding: 2rem; width: 90%; max-width: 500px; border-radius: 15px; text-align: center;">
+                            <h2 id="contactTitle">Contact Trainer</h2>
+                            <div class="contact-grid">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <p>+1 (555) 123-4567</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <p>+1 (555) 123-4567</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p>123 Fitness St<br>City, State</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <p>info@elitefitness.com</p>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <p>Price: NULL</p>
+                                </div>
+                            </div>
+                            <button class="btn" onclick="this.parentElement.parentElement.style.display='none'" style="margin-top: 1rem;">Close</button>
+                        </div>
+                    </div>
+                    <script>
+                        function showContact(program) {
+                            document.getElementById('contactTitle').textContent = 'Contact Trainer - ' + program;
+                            document.getElementById('contactModal').style.display = 'block';
+                        }
+                    </script>
+                </body>
+                </html>
+            `);
+        }
 
-  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Cardio Zone</title>
-<script src="https://cdn.tailwindcss.com/3.4.17"><\/script>
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"><\/script>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>*{box-sizing:border-box}body{font-family:'Barlow',sans-serif;margin:0;background:#0a0a0a;color:#f0f0f0;min-height:100%}.font-h{font-family:'Oswald',sans-serif}.card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:32px;text-align:center;transition:transform .3s}.card:hover{transform:translateY(-4px)}.btn{background:${primary};color:#fff;border:none;padding:12px 32px;border-radius:999px;font-family:'Oswald',sans-serif;font-weight:600;cursor:pointer;letter-spacing:1px;transition:filter .2s}.btn:hover{filter:brightness(1.15)}.back-btn{background:rgba(255,255,255,0.1);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-family:'Oswald',sans-serif;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}.back-btn:hover{background:rgba(255,255,255,0.15)}.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:100}.overlay.active{display:flex}.modal{background:#1a1a2e;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:32px;max-width:400px;width:90%;position:relative}</style></head>
-<body><div style="max-width:900px;margin:0 auto;padding:40px 20px">
-<button class="back-btn" onclick="window.close()"><span>←</span>Back to Main</button>
-<h1 class="font-h" style="font-size:2.5rem;text-align:center;margin:20px 0 8px;color:${primary}">CARDIO ZONE</h1>
-<p style="text-align:center;color:rgba(255,255,255,.5);margin-bottom:40px">Choose your cardio style</p>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
-<div class="card"><div style="font-size:3rem;margin-bottom:12px">💃</div><h2 class="font-h" style="font-size:1.5rem;margin-bottom:8px">ZUMBA</h2><p style="color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:20px">High-energy dance fitness that feels like a party!</p><button class="btn" onclick="showInfo('Zumba Classes')">START NOW</button></div>
-<div class="card"><div style="font-size:3rem;margin-bottom:12px">🕺</div><h2 class="font-h" style="font-size:1.5rem;margin-bottom:8px">DANCE</h2><p style="color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:20px">Express yourself with various dance styles and burn calories.</p><button class="btn" onclick="showInfo('Dance Classes')">START NOW</button></div>
-<div class="card"><div style="font-size:3rem;margin-bottom:12px">🧘</div><h2 class="font-h" style="font-size:1.5rem;margin-bottom:8px">YOGA</h2><p style="color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:20px">Find balance, flexibility, and inner peace with guided yoga.</p><button class="btn" onclick="showInfo('Yoga Classes')">START NOW</button></div>
-</div></div>
-<div id="info-overlay" class="overlay" onclick="if(event.target===this)this.classList.remove('active')">
-<div class="modal">
-<button onclick="document.getElementById('info-overlay').classList.remove('active')" style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,.1);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px">✕</button>
-<h3 id="info-title" class="font-h" style="font-size:1.5rem;color:${primary};margin-bottom:20px"></h3>
-<div style="display:flex;flex-direction:column;gap:14px">
-<div style="display:flex;align-items:center;gap:10px"><i data-lucide="phone" style="width:18px;height:18px;color:${primary}"></i><span>${phone}</span></div>
-<div style="display:flex;align-items:center;gap:10px"><i data-lucide="message-circle" style="width:18px;height:18px;color:${primary}"></i><span>${wa}</span></div>
-<div style="display:flex;align-items:center;gap:10px"><i data-lucide="mail" style="width:18px;height:18px;color:${primary}"></i><span>${email}</span></div>
-<div style="display:flex;align-items:center;gap:10px"><i data-lucide="map-pin" style="width:18px;height:18px;color:${primary}"></i><span>${loc}</span></div>
-<div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px;color:${primary}">₹</span><span style="font-weight:600">Price: Contact for details</span></div>
-</div></div></div>
-<script>function showInfo(t){document.getElementById('info-title').textContent=t;document.getElementById('info-overlay').classList.add('active');lucide.createIcons()}lucide.createIcons()<\/script></body></html>`;
+        function showPersonalTraining() {
+            document.getElementById('personalModal').style.display = 'block';
+        }
 
-  const blob = new Blob([html], {type:'text/html'});
-  window.open(URL.createObjectURL(blob), '_blank');
-}
+        function closeModal() {
+            document.getElementById('personalModal').style.display = 'none';
+        }
 
-// ====== GALLERY ======
-function promptOwnerMode() {
-  document.getElementById('owner-pwd-input').value = '';
-  document.getElementById('pwd-error').classList.add('hidden');
-  document.getElementById('owner-auth-modal').classList.add('active');
-}
-
-function verifyOwnerPassword() {
-  const pwd = document.getElementById('owner-pwd-input').value;
-  if (pwd === ownerPassword && pwd !== '') {
-    isOwnerMode = true;
-    document.getElementById('owner-auth-modal').classList.remove('active');
-    document.getElementById('add-photo-modal').classList.add('active');
-    renderGallery();
-  } else {
-    document.getElementById('pwd-error').classList.remove('hidden');
-  }
-}
-
-function selectPhotoFile() {
-  document.getElementById('gallery-input').click();
-}
-
-async function handleGalleryUpload(e) {
-  const files = e.target.files;
-  if (!files.length) return;
-  const caption = document.getElementById('photo-caption').value.trim() || 'Gym Photo';
-  const addBtn = document.getElementById('gallery-add-btn');
-
-  for (let file of files) {
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-      const result = await window.dataSdk.create({
-        id: Date.now() + '-' + Math.random().toString(36).substr(2, 9),
-        image_url: ev.target.result,
-        caption: caption
-      });
-      if (result.isError) console.error('Failed to save photo');
-    };
-    reader.readAsDataURL(file);
-  }
-
-  document.getElementById('add-photo-modal').classList.remove('active');
-  document.getElementById('photo-caption').value = '';
-  e.target.value = '';
-}
-
-function renderGallery() {
-  const grid = document.getElementById('gallery-grid');
-  const addBtn = grid.querySelector('#gallery-add-btn');
-  if (!addBtn) return;
-
-  // Track existing items
-  const existingMap = new Map();
-  [...grid.children].forEach(el => {
-    if (el.id !== 'gallery-add-btn' && el.dataset.photoId) {
-      existingMap.set(el.dataset.photoId, el);
-    }
-  });
-
-  // Update or create items
-  galleryData.forEach(photo => {
-    if (existingMap.has(photo.__backendId)) {
-      const el = existingMap.get(photo.__backendId);
-      el.querySelector('p').textContent = photo.caption || 'Gym Photo';
-      existingMap.delete(photo.__backendId);
-    } else {
-      const div = document.createElement('div');
-      div.className = 'gallery-item';
-      div.style.borderStyle = 'solid';
-      div.style.borderColor = 'rgba(255,255,255,0.08)';
-      div.dataset.photoId = photo.__backendId;
-      const removeBtn = isOwnerMode ? `<button class="remove-btn" onclick="removeGalleryPhoto('${photo.__backendId}')">✕</button>` : '';
-      div.innerHTML = `<img src="${photo.image_url}" alt="${photo.caption}"><div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.8),transparent);padding:12px;color:#fff;font-size:0.75rem">${photo.caption}</div>${removeBtn}`;
-      grid.insertBefore(div, addBtn);
-    }
-  });
-
-  // Remove deleted items
-  existingMap.forEach(el => el.remove());
-}
-
-async function removeGalleryPhoto(id) {
-  const photo = galleryData.find(p => p.__backendId === id);
-  if (photo) {
-    const result = await window.dataSdk.delete(photo);
-    if (result.isError) console.error('Failed to delete photo');
-  }
-}
-
-// ====== CONTACT FORM ======
-function handleContactForm(e) {
-  e.preventDefault();
-  document.getElementById('form-msg').classList.remove('hidden');
-  e.target.reset();
-  setTimeout(() => document.getElementById('form-msg').classList.add('hidden'), 3000);
-}
-
-// ====== SCROLL TO TOP ======
-document.getElementById('app').addEventListener('scroll', function() {
-  const btn = document.getElementById('scroll-top');
-  if (this.scrollTop > 400) btn.classList.add('visible');
-  else btn.classList.remove('visible');
-});
-
-// ====== INIT ICONS ======
-lucide.createIcons();
-</script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f67738e47a73b49',t:'MTc3Nzg5NzE0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        window.onclick = function(event) {
+            const modal = document.getElementById('personalModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
 </html>
