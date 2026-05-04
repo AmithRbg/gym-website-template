@@ -3,741 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Fitness Gym</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>IronFit Gym - Transform Your Body</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        /* Navigation - EXACT original style */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5%;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #ff6b6b;
-            text-decoration: none;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        .nav-menu a:hover {
-            color: #ff6b6b;
-        }
-
-        /* Hero - EXACT original style */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-
-        .hero-content h1 {
-            font-size: 4.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            animation: fadeInUp 1s ease;
-        }
-
-        .hero-content p {
-            font-size: 1.3rem;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            animation: fadeInUp 1s ease 0.2s both;
-        }
-
-        .btn-primary {
-            display: inline-block;
-            padding: 18px 40px;
-            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(255,107,107,0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255,107,107,0.6);
-        }
-
-        /* Sections */
-        .section {
-            padding: 100px 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 5%;
-        }
-
-        .section-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 4rem;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Features Grid - Original style */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.15);
-        }
-
-        .feature-icon {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2rem;
-            font-size: 2.5rem;
-            color: white;
-        }
-
-        /* Programs - Your requested section */
-        .programs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 3rem;
-        }
-
-        .program-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 3rem 2.5rem;
-            border-radius: 25px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .program-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: rotate(45deg);
-            transition: all 0.6s ease;
-        }
-
-        .program-card:hover::before {
-            animation: shine 0.6s ease;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .program-card:hover {
-            transform: translateY(-10px);
-        }
-
-        /* Gallery - Owner only */
-        .gallery-admin {
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .gallery-admin input {
-            padding: 12px 15px;
-            border: none;
-            border-radius: 25px;
-            margin: 0 10px;
-            width: 300px;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .gallery-item {
-            height: 300px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.05);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            color: white;
-            padding: 2rem 1.5rem 1.5rem;
-            transform: translateY(100%);
-            transition: 0.3s ease;
-        }
-
-        .gallery-item:hover .gallery-overlay {
-            transform: translateY(0);
-        }
-
-        .admin-controls {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            display: none;
-        }
-
-        .gallery-item:hover .admin-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .admin-btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .remove-btn { background: rgba(255,50,50,0.9); }
-        .edit-btn { background: rgba(50,150,50,0.9); }
-
-        /* Contact */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .contact-card {
-            background: rgba(255,255,255,0.95);
-            padding: 3rem 2rem;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 3rem; }
-            .section-title { font-size: 2.5rem; }
-            .nav-menu {
-                position: fixed;
-                left: -100%;
-                top: 70px;
-                flex-direction: column;
-                background: rgba(0,0,0,0.98);
-                width: 100%;
-                text-align: center;
-                padding: 2rem 0;
-                transition: 0.3s;
-            }
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 3rem;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 20px;
-            text-align: center;
-            position: relative;
-            animation: fadeInUp 0.3s ease;
-        }
-    </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#home" class="logo">EliteGym</a>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#programs">Programs</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <div class="nav-logo">
+                <i class="fas fa-dumbbell"></i>
+                IronFit Gym
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#classes" class="nav-link">Classes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#pricing" class="nav-link">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
             </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span><span></span><span></span>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
         </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>Build Your Dream Body</h1>
-            <p>Join thousands of fitness enthusiasts who transformed their lives with our world-class training programs</p>
-            <a href="#programs" class="btn-primary">Join Now</a>
+            <h1>Transform Your <span class="highlight">Body</span></h1>
+            <p>Join 5000+ members who achieved their fitness goals</p>
+            <div class="hero-buttons">
+                <a href="#pricing" class="btn btn-primary">Get Started</a>
+                <a href="#classes" class="btn btn-secondary">View Classes</a>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <h3>5000+</h3>
+                <p>Happy Members</p>
+            </div>
+            <div class="stat">
+                <h3>50+</h3>
+                <p>Classes Weekly</p>
+            </div>
+            <div class="stat">
+                <h3>24/7</h3>
+                <p>Access</p>
+            </div>
         </div>
     </section>
 
-    <!-- About -->
-    <section id="about" class="section" style="background: #f8f9fa;">
+    <!-- About Section -->
+    <section id="about" class="about">
         <div class="container">
-            <h2 class="section-title">Why Choose Us?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-dumbbell"></i></div>
-                    <h3>Premium Equipment</h3>
-                    <p>Latest gym equipment from world-renowned brands</p>
+            <h2 class="section-title">Why Choose IronFit?</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>World-Class Facilities</h3>
+                    <p>State-of-the-art equipment, certified trainers, and a supportive community. We've got everything you need to crush your fitness goals.</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 24/7 Access</li>
+                        <li><i class="fas fa-check"></i> Free Parking</li>
+                        <li><i class="fas fa-check"></i> Personal Training</li>
+                        <li><i class="fas fa-check"></i> Group Classes</li>
+                    </ul>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-users"></i></div>
-                    <h3>Expert Trainers</h3>
-                    <p>Certified professionals with 10+ years experience</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-clock"></i></div>
-                    <h3>24/7 Access</h3>
-                    <p>Train anytime with our round-the-clock facility</p>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-dumbbell"></i>
+                        <p>Add your gym photo here</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Programs - YOUR SECTION -->
-    <section id="programs" class="section">
+    <!-- Classes Section -->
+    <section id="classes" class="classes">
         <div class="container">
-            <h2 class="section-title">Our Programs</h2>
-            <div class="programs-grid">
-                <div class="program-card">
-                    <i class="fas fa-weight-hanging" style="font-size: 4rem; margin-bottom: 1.5rem; display: block;"></i>
+            <h2 class="section-title">Our Classes</h2>
+            <div class="classes-grid">
+                <div class="class-card">
+                    <i class="fas fa-weight-hanging"></i>
                     <h3>Weight Training</h3>
-                    <p>Professional strength training for all levels</p>
-                    <button class="btn-primary" onclick="openWeightTraining()" style="margin-top: 2rem;">Start Now</button>
+                    <p>Build strength and muscle with our expert-guided sessions</p>
+                    <span class="class-time">Mon, Wed, Fri • 6AM-8PM</span>
                 </div>
-                <div class="program-card">
-                    <i class="fas fa-heartbeat" style="font-size: 4rem; margin-bottom: 1.5rem; display: block;"></i>
-                    <h3>Cardio Zone</h3>
-                    <p>High-intensity cardio & endurance programs</p>
-                    <button class="btn-primary" onclick="openCardioZone()" style="margin-top: 2rem;">Start Now</button>
+                <div class="class-card">
+                    <i class="fas fa-running"></i>
+                    <h3>Cardio Blast</h3>
+                    <p>High-intensity cardio to burn fat and boost endurance</p>
+                    <span class="class-time">Tue, Thu • 7AM-9AM</span>
                 </div>
-                <div class="program-card">
-                    <i class="fas fa-user-friends" style="font-size: 4rem; margin-bottom: 1.5rem; display: block;"></i>
-                    <h3>Personal Training</h3>
-                    <p>1-on-1 sessions with certified trainers</p>
-                    <button class="btn-primary" onclick="showPersonalTraining()" style="margin-top: 2rem;">Start Now</button>
+                <div class="class-card">
+                    <i class="fas fa-yoga"></i>
+                    <h3>Yoga Flow</h3>
+                    <p>Improve flexibility, reduce stress, and find your center</p>
+                    <span class="class-time">Daily • 6PM-7PM</span>
+                </div>
+                <div class="class-card">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>HIIT Circuit</h3>
+                    <p>Full-body workout in 30 minutes. Maximum results!</p>
+                    <span class="class-time">Sat, Sun • 8AM-10AM</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Gallery - OWNER ONLY -->
-    <section id="gallery" class="section" style="background: #f8f9fa;">
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
         <div class="container">
-            <h2 class="section-title">Gallery</h2>
-            
-            <div class="gallery-admin" id="adminPanel" style="display: none;">
-                <input type="text" id="imgUrl" placeholder="Image URL">
-                <input type="text" id="imgTitle" placeholder="Title">
-                <input type="text" id="imgDesc" placeholder="Description">
-                <button class="btn-primary" onclick="addPhoto()" style="margin-left: 10px;">Add Photo</button>
-            </div>
-            
-            <button class="btn-primary" onclick="toggleAdmin()" id="adminBtn" style="display: block; margin: 0 auto 3rem;">
-                👨‍💼 Owner Panel
-            </button>
-
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- Default photos -->
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');">
-                    <div class="admin-controls">
-                        <button class="admin-btn remove-btn" onclick="removePhoto(this)">×</button>
-                        <button class="admin-btn edit-btn" onclick="editPhoto(this)">✏️</button>
-                    </div>
-                    <div class="gallery-overlay">
-                        <h4>Weight Area</h4>
-                        <p>State-of-the-art equipment</p>
-                    </div>
+            <h2 class="section-title">Choose Your Plan</h2>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Basic</h3>
+                    <div class="price">$29<span>/mo</span></div>
+                    <ul>
+                        <li>24/7 Gym Access</li>
+                        <li>Free Parking</li>
+                        <li>Lockers</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Join Now</a>
                 </div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');">
-                    <div class="admin-controls">
-                        <button class="admin-btn remove-btn" onclick="removePhoto(this)">×</button>
-                        <button class="admin-btn edit-btn" onclick="editPhoto(this)">✏️</button>
-                    </div>
-                    <div class="gallery-overlay">
-                        <h4>Cardio Zone</h4>
-                        <p>Latest cardio machines</p>
-                    </div>
+                <div class="price-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <h3>Pro</h3>
+                    <div class="price">$49<span>/mo</span></div>
+                    <ul>
+                        <li>Everything in Basic</li>
+                        <li>Group Classes</li>
+                        <li>Personal Training (1x/week)</li>
+                        <li>Towel Service</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Join Now</a>
                 </div>
-                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1519710164239-da123dc03ef4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');">
-                    <div class="admin-controls">
-                        <button class="admin-btn remove-btn" onclick="removePhoto(this)">×</button>
-                        <button class="admin-btn edit-btn" onclick="editPhoto(this)">✏️</button>
-                    </div>
-                    <div class="gallery-overlay">
-                        <h4>Group Classes</h4>
-                        <p>Zumba & Yoga sessions</p>
-                    </div>
+                <div class="price-card">
+                    <h3>Elite</h3>
+                    <div class="price">$79<span>/mo</span></div>
+                    <ul>
+                        <li>Everything in Pro</li>
+                        <li>Unlimited PT Sessions</li>
+                        <li>Nutrition Coaching</li>
+                        <li>Private Locker</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Join Now</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact" class="section">
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
         <div class="container">
-            <h2 class="section-title">Contact Info</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <i class="fas fa-phone" style="font-size: 3rem; color: #ff6b6b; margin-bottom: 1.5rem;"></i>
-                    <h3>Phone</h3>
-                    <p>+1 (555) 123-4567</p>
+            <h2 class="section-title">Ready to Start?</h2>
+            <p class="contact-subtitle">Fill out the form below and we'll get back to you in 24 hours</p>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Your Name" required>
                 </div>
-                <div class="contact-card">
-                    <i class="fab fa-whatsapp" style="font-size: 3rem; color: #25D366; margin-bottom: 1.5rem;"></i>
-                    <h3>WhatsApp</h3>
-                    <p>+1 (555) 123-4567</p>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Your Email" required>
                 </div>
-                <div class="contact-card">
-                    <i class="fas fa-map-marker-alt" style="font-size: 3rem; color: #4ecdc4; margin-bottom: 1.5rem;"></i>
-                    <h3>Location</h3>
-                    <p>123 Fitness St<br>City, State 12345</p>
+                <div class="form-group">
+                    <input type="tel" id="phone" placeholder="Your Phone">
                 </div>
-                <div class="contact-card">
-                    <i class="fas fa-envelope" style="font-size: 3rem; color: #ff6b6b; margin-bottom: 1.5rem;"></i>
-                    <h3>Email</h3>
-                    <p>info@elitegym.com</p>
+                <div class="form-group">
+                    <select id="plan" required>
+                        <option value="">Select Plan</option>
+                        <option value="basic">Basic ($29/mo)</option>
+                        <option value="pro">Pro ($49/mo)</option>
+                        <option value="elite">Elite ($79/mo)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+            <div class="contact-info">
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Address</h4>
+                        <p>123 Fitness St, Gym City, GC 12345</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Phone</h4>
+                        <p>(555) 123-4567</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Hours</h4>
+                        <p>24/7 Open</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Personal Training Modal -->
-    <div id="personalModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()" style="position: absolute; right: 20px; top: 20px; font-size: 2rem; cursor: pointer;">&times;</span>
-            <i class="fas fa-user-friends" style="font-size: 4rem; color: #ff6b6b; margin-bottom: 1.5rem;"></i>
-            <h2>Personal Training</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-                <div style="text-align: center;">
-                    <i class="fas fa-phone" style="font-size: 2rem; color: #ff6b6b;"></i>
-                    <p>+1 (555) 123-4567</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="nav-logo">
+                        <i class="fas fa-dumbbell"></i>
+                        IronFit Gym
+                    </div>
+                    <p>Transforming lives through fitness since 2020.</p>
                 </div>
-                <div style="text-align: center;">
-                    <i class="fab fa-whatsapp" style="font-size: 2rem; color: #25D366;"></i>
-                    <p>+1 (555) 123-4567</p>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#classes">Classes</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                    </ul>
                 </div>
-                <div style="text-align: center;">
-                    <i class="fas fa-envelope" style="font-size: 2rem; color: #ff6b6b;"></i>
-                    <p>info@elitegym.com</p>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@ironfitgym.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Fitness St</p>
                 </div>
             </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 IronFit Gym. All rights reserved.</p>
+            </div>
         </div>
-    </div>
+    </footer>
 
-    <script>
-        // Mobile menu
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('navMenu');
-        
-        hamburger.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Gallery Admin
-        let adminMode = false;
-        function toggleAdmin() {
-            adminMode = !adminMode;
-            document.getElementById('adminPanel').style.display = adminMode ? 'block' : 'none';
-            document.getElementById('adminBtn').textContent = adminMode ? 'Hide Panel' : '👨‍💼 Owner Panel';
-        }
-
-        function addPhoto() {
-            const url = document.getElementById('imgUrl').value;
-            const title = document.getElementById('imgTitle').value || 'New Photo';
-            const desc = document.getElementById('imgDesc').value || 'Gym photo';
-            
-            if (!url) return alert('Enter image URL');
-            
-            const grid = document.getElementById('galleryGrid');
-            const item = document.createElement('div');
-            item.className = 'gallery-item';
-            item.style.backgroundImage = `url(${url})`;
-            item.innerHTML = `
-                <div class="admin-controls">
-                    <button class="admin-btn remove-btn" onclick="removePhoto(this)">×</button>
-                    <button class="admin-btn edit-btn" onclick="editPhoto(this)">✏️</button>
-                </div>
-                <div class="gallery-overlay">
-                    <h4>${title}</h4>
-                    <p>${desc}</p>
-                </div>
-            `;
-            grid.appendChild(item);
-            
-            document.getElementById('imgUrl').value = '';
-            document.getElementById('imgTitle').value = '';
-            document.getElementById('imgDesc').value = '';
-        }
-
-        function removePhoto(btn) {
-            if (confirm('Remove this photo?')) {
-                btn.parentElement.parentElement.remove();
-            }
-        }
-
-        function editPhoto(btn) {
-            const overlay = btn.parentElement.nextElementSibling;
-            const newTitle = prompt('Title:', overlay.querySelector('h4').textContent);
-            const newDesc = prompt('Description:', overlay.querySelector('p').textContent);
-            if (newTitle) overlay.querySelector('h4').textContent = newTitle;
-            if (newDesc) overlay.querySelector('p').textContent = newDesc;
-        }
-
-        // Programs
-        function openWeightTraining() {
-            const win = window.open('', '_blank');
-            win.document.write(`
-                <!DOCTYPE html>
-                <html><head>
-                    <title>Weight Training | EliteGym</title>
-                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-                    <style>
-                        body{font-family:'Poppins',sans-serif;margin:0;padding:20px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;min-height:100vh;}
-                        .back-btn{position:fixed;top:20px;left:20px;background:#ff6b6b;color:white;padding:15px 25px;border:none;border-radius:30px;font-weight:600;cursor:pointer;z-index:1000;box-shadow:0 10px 30px rgba(0,0,0,0.3);}
-                        .back-btn:hover{transform:translateY(-2px);}
-                        .container{max-width:1200px;margin:0 auto;padding-top:100px;}
-                        h1{text-align:center;font-size:3rem;margin-bottom:4rem;}
-                        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2rem;}
-                        .card{background:rgba(255,255,255,0.1);padding:3rem;border-radius:20px;backdrop-filter:blur(10px);text-align:center;}
-                        .card h3{font-size:2rem;margin-bottom:1rem;}
-                        .btn{background:#ff6b6b;color:white;padding:15px 30px;border:none;border-radius:30px;font-weight:600;cursor:pointer;margin-top:1.5rem;font-size:1.1rem;}
-                        .btn:hover{transform:translateY(-3px);}
-                    </style>
-                </head><body>
-                    <button class="back-btn" onclick="window.close()">← Back to Main Site</button>
-                    <div class="container">
-                        <h1>🏋️ Weight Training</h1>
-                        <div class="grid">
-                            <div class="card">
-                                <h3>Bulking</h3>
-                                <p>Mass gain program</p>
-                                <button class="btn" onclick="showContact('Bulking')">Start Now</button>
-                            </div>
-                            <div class="card">
-                                <h3>Cutting</h3>
-                                <p>Fat loss program</p>
-                                <button class="btn" onclick="showContact('Cutting')">Start Now</button>
-                            </div>
-                            <div class="card">
-                                <h3>Weight Loss</h3>
-                                <p>Transformation program</p>
-                                <button class="btn" onclick="showContact('Weight Loss')">Start Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="contact" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:2000;">
-                        <div style="background:white;color:#333;margin:10% auto;padding:3rem;width:90%;max-width:500px;border-radius:20px;text-align:center;">
-                            <h2 id="progTitle">Contact Trainer</h2>
-                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin:2rem 0;">
-                                <div><i class="fas fa-phone" style="font-size:2rem;color:#ff6b6b;"></i><p>+1(555)123-4567</p></div>
-                                <div><i class="fab fa-whatsapp" style="font-size:2rem;color:#25D366;"></i><p>+1(555)123-4567</p></div>
-                                <div><i class="fas fa-map-marker-alt" style="font-size:2rem;color:#4ecdc4;"></i><p>123 Fitness St</p></div>
-                                <div><i class="fas fa-envelope" style="font-size:2rem;color:#ff6b6b;"></i><p>info@elitegym.com</p></div>
-                                <div><i class="fas fa-dollar-sign" style="font-size:2rem;color:#ff6b6b;"></i><p>Price: NULL</p></div>
-                            </div>
-                            <button class="btn" onclick="document.getElementById('contact').style.display='none'" style="margin-top:1rem;">Close</button>
-                        </div>
-                    </div>
-                    <script>
-                        function showContact(prog){document.getElementById('progTitle').textContent='Contact - '+prog;document.getElementById('contact').style.display='block';}
-                    </script>
-                </body></html>
-            `);
-        }
-
-        function openCardioZone() {
-            const win = window.open('', '_blank');
-            win.document.write(`
-                <!DOCTYPE html>
-                <html><head>
-                    <title>Cardio Zone | EliteGym</title>
-                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-                    <style>
-                        body{font-family:'Poppins',sans-serif;margin:0;padding:20px;background:linear-gradient(135deg,#ff6b6b,#ff8e53 100%);color:white;min-height:100vh;}
-                        .back-btn{position:fixed;top:20px;left:20px;background:#333;color:white;padding:15px 25px;border:none;border-radius:30px;font-weight:600;cursor:pointer;z-index:1000;box-shadow:0 10px 30px rgba(0,0,0,0.3);}
-                        .back-btn:hover{transform:translateY(-2px);}
-                        .container{max-width:1200px;margin:0 auto;padding-top:100px;}
-                        h1{text-align:center;font-size:3rem;margin-bottom:4rem;}
-                        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2rem;}
-                        .card{background:rgba(255,255,255,0.1);padding:3rem;border-radius:20px;backdrop-filter:blur(10px);text-align:center;}
-                        .card h3{font-size:2rem;margin-bottom:1rem;}
-                        .btn{background:#333;color:white;padding:15px 30px;border:none;border-radius:30px;font-weight:600;cursor:pointer;margin-top:1.5rem;font-size:1.1rem;}
-                        .btn:hover{transform:translateY(-3px);}
-                    </style>
-                </head><body>
-                    <button class="back-btn" onclick="window.close()">← Back to Main Site</button>
-                    <div class="container">
-                        <h1>❤️ Cardio Zone</h1>
-                        <div class="grid">
-                            <div class="card">
-                                <h3>💃 Zumba Dance</h3>
-                                <p>Energetic dance fitness</p>
-                                <button class="btn" onclick="showContact('Zumba')">Start Now</button>
-                            </div>
-                            <div class="card">
-                                <h3>🧘 Yoga</h3>
-                                <p>Flexibility & wellness</p>
-                                <button class="btn" onclick="showContact('Yoga')">Start Now</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="contact" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:2000;">
-                        <div style="background:white;color:#333;margin:10% auto;padding:3rem;width:90%;max-width:500px;border-radius:20px;text-align:center;">
-                            <h2 id="progTitle">Contact Trainer</h2>
-                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin:2rem 0;">
-                                <div><i class="fas fa-phone" style="font-size:2rem;color:#ff6b6b;"></i><p>+1(555)123-4567</p></div>
-                                <div><i class="fab fa-whatsapp" style="font-size:2rem;color:#25D366;"></i><p>+1(555)123-4567</p></div>
-                                <div><i class="fas fa-map-marker-alt" style="font-size:2rem;color:#4ecdc4;"></i><p>123 Fitness St</p></div>
-                                <div><i class="fas fa-envelope" style="font-size:2rem;color:#ff6b6b;"></i><p>info@elitegym.com</p></div>
-                                <div><i class="fas fa-dollar-sign" style="font-size:2rem;color:#ff6b6b;"></i><p>Price: NULL</p></div>
-                            </div>
-                            <button class="btn" onclick="document.getElementById('contact').style.display='none'" style="margin-top:1rem;">Close</button>
-                        </div>
-                    </div>
-                    <script>
-                        function showContact(prog){document.getElementById('progTitle').textContent='Contact - '+prog;document.getElementById('contact').style.display='block';}
-                    </script>
-                </body></html>
-            `);
-        }
-
-        function showPersonalTraining() {
-            document.getElementById('personalModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('personalModal').style.display = 'none';
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
