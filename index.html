@@ -3,97 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IronFit Gym - Transform Your Body</title>
+    <title>IronFit Gym - Transform Your Body | Best Gym in Town</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /*
+         * IRONFIT GYM WEBSITE - COMPLETE VERSION
+         * Features: Dark Mode (beside Contact), Yoga Icon Fixed, Fully Responsive
+         * Author: Blackbox AI
+         * Date: 2024
+         */
+        
+        /* CSS VARIABLES FOR DARK MODE */
         :root {
             --bg-primary: #ffffff;
             --bg-secondary: #f8f9fa;
-            --text-primary: #333;
-            --text-secondary: #666;
+            --text-primary: #333333;
+            --text-secondary: #666666;
             --card-bg: #ffffff;
-            --border-color: #eee;
-            --accent: #ff6b35;
-            --hero-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --border-color: #eeeeee;
+            --accent-color: #ff6b35;
+            --accent-hover: #e55a2b;
+            --hero-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --navbar-bg: rgba(0,0,0,0.95);
+            --shadow-light: 0 20px 40px rgba(0,0,0,0.1);
+            --shadow-hover: 0 30px 60px rgba(0,0,0,0.15);
         }
+
+        /* DARK THEME */
         [data-theme="dark"] {
             --bg-primary: #1a1a1a;
             --bg-secondary: #2a2a2a;
             --text-primary: #ffffff;
             --text-secondary: #cccccc;
             --card-bg: #2d2d2d;
-            --border-color: #444;
-            --accent: #ff6b35;
-            --hero-bg: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --border-color: #444444;
+            --accent-color: #ff6b35;
+            --accent-hover: #e55a2b;
+            --hero-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             --navbar-bg: rgba(30,30,30,0.98);
+            --shadow-light: 0 20px 40px rgba(0,0,0,0.3);
+            --shadow-hover: 0 30px 60px rgba(0,0,0,0.4);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Arial', sans-serif; 
-            line-height: 1.6; 
-            color: var(--text-primary); 
-            background: var(--bg-primary);
+        /* RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
             overflow-x: hidden;
             transition: all 0.3s ease;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* Navigation */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* NAVIGATION BAR */
         .navbar {
-            position: fixed; top: 0; width: 100%; background: var(--navbar-bg);
-            backdrop-filter: blur(10px); z-index: 1000; padding: 1rem 0; transition: all 0.3s ease;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
         }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
-        .nav-logo { font-size: 1.8rem; font-weight: bold; color: var(--accent); display: flex; align-items: center; gap: 10px; }
-        .nav-menu { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
-        .nav-link { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s ease; padding: 0.5rem 1rem; border-radius: 20px; }
-        .nav-link:hover { color: var(--accent); background: rgba(255,255,255,0.1); }
-        
-        /* Dark Mode Button in Navbar */
-        .theme-toggle {
-            background: var(--accent); color: white; border: none; padding: 0.7rem;
-            width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.1rem;
-            transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3); margin-left: 1rem;
-        }
-        .theme-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-        .theme-toggle.active { background: #e55a2b; }
 
-        .nav-right { display: flex; align-items: center; gap: 1rem; }
-        .hamburger { display: none; flex-direction: column; cursor: pointer; }
-        .bar { width: 25px; height: 3px; background: white; margin: 3px 0; transition: 0.3s; }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* Hero */
-        .hero {
-            height: 100vh; background: var(--hero-bg);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; color: white; position: relative; overflow: hidden;
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
         }
-        .hero-content h1 { font-size: 4rem; margin-bottom: 1rem; animation: fadeInUp 1s ease; }
-        .highlight { color: var(--accent); }
-        .hero-content p { font-size: 1.3rem; margin-bottom: 2rem; animation: fadeInUp 1s ease 0.2s both; }
-        .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: fadeInUp 1s ease 0.4s both; }
-        .btn {
-            padding: 15px 30px; border: none; border-radius: 50px; font-size: 1.1rem;
-            font-weight: bold; text-decoration: none; transition: all 0.3s ease; cursor: pointer; display: inline-block;
-        }
-        .btn-primary { background: var(--accent); color: white; }
-        .btn-primary:hover { background: #e55a2b; transform: translateY(-2px); }
-        .btn-secondary { background: transparent; color: white; border: 2px solid white; }
-        .btn-secondary:hover { background: white; color: var(--hero-bg); }
-        .hero-stats {
-            position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 3rem; animation: fadeInUp 1s ease 0.6s both;
-        }
-        .stat h3 { font-size: 2.5rem; color: var(--accent); }
-        .stat p { font-size: 0.9rem; opacity: 0.9; }
 
-        /* Sections */
-        section { padding: 100px 0; background: var(--bg-primary); }
-        .section-title {
-            text-align: center; font-size: 3rem; margin-bottom: 4rem; color: var(--text-primary); position: relative;
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
         }
-        .section-title::after {
-            content: ''; position: absolute; bottom: -10px; left: 50%; transform:
+
+        .nav-item {
+            position
